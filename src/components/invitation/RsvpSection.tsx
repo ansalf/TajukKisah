@@ -290,7 +290,7 @@ export const RsvpSection: React.FC<RsvpFormProps> = ({
               <input
                 id="rsvp-contact"
                 type="text"
-                placeholder="e.g. aditya.guest@domain.com or +62 812 3456 7890"
+                placeholder="Email or WhatsApp number"
                 value={emailOrPhone}
                 onChange={(e) => setEmailOrPhone(e.target.value)}
                 style={{
@@ -344,7 +344,7 @@ export const RsvpSection: React.FC<RsvpFormProps> = ({
                   onChange={(e) => setGuestCount(Number(e.target.value))}
                   style={{
                     width: '100%',
-                    padding: '12px 14px',
+                    padding: '12px 36px 12px 14px',
                     backgroundColor: '#FFFFFF',
                     border: `1px solid ${borderColor}`,
                     borderRadius: '2px',
@@ -352,6 +352,8 @@ export const RsvpSection: React.FC<RsvpFormProps> = ({
                     fontFamily: 'inherit',
                     color: textColor,
                     outline: 'none',
+                    boxSizing: 'border-box',
+                    cursor: 'pointer',
                   }}
                 >
                   <option value={1}>1 Guest (Just me)</option>

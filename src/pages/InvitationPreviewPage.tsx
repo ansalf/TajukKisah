@@ -178,7 +178,7 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
   }
 
   return (
-    <div style={{ backgroundColor: themeBg, minHeight: '100vh', position: 'relative' }}>
+    <div style={{ backgroundColor: themeBg, minHeight: '100vh', position: 'relative', overflowX: 'hidden' }}>
       <AnimatePresence mode="wait">
         {!isOpened ? (
           <motion.div
@@ -186,11 +186,11 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
             initial={{ opacity: 1, scale: 1 }}
             exit={{
               opacity: 0,
-              y: -80,
-              scale: 0.96,
-              transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+              y: -50,
+              scale: 0.98,
+              transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
             }}
-            style={{ width: '100%', minHeight: '100vh', position: 'fixed', inset: 0, zIndex: 100, overflowY: 'auto' }}
+            style={{ width: '100%', minHeight: '100vh', position: 'relative', zIndex: 50 }}
           >
             <InvitationCover
               groomName={couple.groom.shortName}
@@ -211,9 +211,9 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
         ) : (
           <motion.div
             key="invitation-content"
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             style={{ width: '100%' }}
           >
             {/* Floating Audio Soundtrack Player */}
@@ -282,54 +282,56 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
             </span>
           </div>
 
-          {/* Quick Style Switcher */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {/* Quick Style Switcher (Responsive, wrapped nicely on small screens) */}
+          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
             <span
               style={{
-                fontSize: '0.75rem',
+                fontSize: '0.7rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em',
                 fontWeight: 600,
                 color: isDark ? '#E5D6C5' : 'var(--color-charcoal-muted)',
-                marginRight: '4px',
+                marginRight: '2px',
               }}
             >
               Theme:
             </span>
-            {TEMPLATES_DATA.map((t) => {
-              const isSelected = t.id === activeTemplateId;
-              // Contrast check: gold background requires dark text (#1E0E13); burgundy/botanical require white text (#FFFFFF)
-              const selectedTextColor = t.id === 'velvet-noir-editorial' || isDark ? '#1E0E13' : '#FFFFFF';
-              return (
-                <button
-                  key={t.id}
-                  onClick={() => setActiveTemplateId(t.id)}
-                  aria-pressed={isSelected}
-                  aria-label={`Switch to ${t.title} theme`}
-                  style={{
-                    padding: '6px 14px',
-                    fontSize: '0.75rem',
-                    fontFamily: 'var(--font-sans)',
-                    fontWeight: 600,
-                    letterSpacing: '0.04em',
-                    borderRadius: '2px',
-                    border: isSelected
-                      ? (isDark ? '1px solid #D4AF37' : `1px solid ${themeAccent}`)
-                      : (isDark ? '1px solid rgba(212, 175, 55, 0.4)' : `1px solid ${themeBorder}`),
-                    backgroundColor: isSelected
-                      ? (isDark ? '#D4AF37' : themeAccent)
-                      : (isDark ? 'rgba(255, 255, 255, 0.08)' : 'transparent'),
-                    color: isSelected
-                      ? selectedTextColor
-                      : (isDark ? '#F5EBE1' : 'var(--color-espresso)'),
-                    transition: 'all 0.2s ease',
-                    cursor: 'pointer',
-                  }}
-                >
-                  {t.title.split(' ')[0]}
-                </button>
-              );
-            })}
+            <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
+              {TEMPLATES_DATA.map((t) => {
+                const isSelected = t.id === activeTemplateId;
+                const selectedTextColor = t.id === 'velvet-noir-editorial' || isDark ? '#1E0E13' : '#FFFFFF';
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => setActiveTemplateId(t.id)}
+                    aria-pressed={isSelected}
+                    aria-label={`Switch to ${t.title} theme`}
+                    style={{
+                      padding: '5px 10px',
+                      fontSize: '0.725rem',
+                      fontFamily: 'var(--font-sans)',
+                      fontWeight: 600,
+                      letterSpacing: '0.03em',
+                      borderRadius: '2px',
+                      border: isSelected
+                        ? (isDark ? '1px solid #D4AF37' : `1px solid ${themeAccent}`)
+                        : (isDark ? '1px solid rgba(212, 175, 55, 0.4)' : `1px solid ${themeBorder}`),
+                      backgroundColor: isSelected
+                        ? (isDark ? '#D4AF37' : themeAccent)
+                        : (isDark ? 'rgba(255, 255, 255, 0.08)' : 'transparent'),
+                      color: isSelected
+                        ? selectedTextColor
+                        : (isDark ? '#F5EBE1' : 'var(--color-espresso)'),
+                      transition: 'all 0.2s ease',
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {t.title.split(' ')[0]}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Actions: Order & Share */}
