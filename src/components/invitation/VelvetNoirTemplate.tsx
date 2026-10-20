@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { SafeImage } from '../common/SafeImage';
 import { Button } from '../common/Button';
 import { MapPin, CheckCircle2, Send } from 'lucide-react';
@@ -93,7 +94,13 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
         {/* =========================================
             HEADER & CALLIGRAPHIC TITLE
         ========================================= */}
-        <section style={{ textAlign: 'center' }}>
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ textAlign: 'center' }}
+        >
           <div
             style={{
               fontFamily: 'var(--font-serif)',
@@ -119,12 +126,18 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
           >
             A Royal Celebration of Love
           </div>
-        </section>
+        </motion.section>
 
         {/* =========================================
             BURGUNDY ENVELOPE WITH GOLD WAX SEAL
         ========================================= */}
-        <section style={{ display: 'flex', justifyContent: 'center' }}>
+        <motion.section
+          initial={{ opacity: 0, scale: 0.95, y: 30 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          style={{ display: 'flex', justifyContent: 'center' }}
+        >
           <div
             style={{
               width: '100%',
@@ -205,12 +218,18 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
               {guestName}
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* =========================================
             COUPLE NAMES IN FINE SCRIPT
         ========================================= */}
-        <section style={{ textAlign: 'center' }}>
+        <motion.section
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          style={{ textAlign: 'center' }}
+        >
           <h1
             style={{
               fontFamily: 'var(--font-serif)',
@@ -236,7 +255,7 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
             </span>
             {couple.bride.shortName}
           </h1>
-        </section>
+        </motion.section>
 
         {/* =========================================
             PARCHMENT CARD: INVITATION GREETING & CALENDAR
