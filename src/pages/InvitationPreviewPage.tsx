@@ -338,6 +338,15 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
               size="sm"
               icon={hasShared ? <Check size={14} /> : <Share2 size={14} />}
               onClick={handleShare}
+              style={
+                isDark
+                  ? {
+                      color: '#F5EBE1',
+                      borderColor: 'rgba(212, 175, 55, 0.6)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                    }
+                  : undefined
+              }
             >
               {hasShared ? 'Link Copied' : 'Share'}
             </Button>

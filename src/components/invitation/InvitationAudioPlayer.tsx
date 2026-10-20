@@ -18,6 +18,7 @@ export const InvitationAudioPlayer: React.FC<AudioPlayerProps> = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioError, setAudioError] = useState(false);
   const [hasUserToggled, setHasUserToggled] = useState(false);
+  const wasPlayingBeforeHiddenRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Initialize and update audio element
@@ -25,7 +26,7 @@ export const InvitationAudioPlayer: React.FC<AudioPlayerProps> = ({
     const targetUrl = audioUrl && audioUrl.trim() ? audioUrl.trim() : WEDDING_AUDIO_URL;
     const audio = new Audio(targetUrl);
     audio.loop = true;
-    audio.preload = 'metadata';
+    audio.preload = 'auto';
 
     const handleError = () => {
       console.warn('TajukKisah: Audio source failed to load or unsupported:', targetUrl);
@@ -36,12 +37,48 @@ export const InvitationAudioPlayer: React.FC<AudioPlayerProps> = ({
     audio.addEventListener('error', handleError);
     audioRef.current = audio;
 
+    // Auto-pause when user switches tab or leaves the web browser (visibilitychange & pagehide)
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (audioRef.current && !audioRef.current.paused) {
+          wasPlayingBeforeHiddenRef.current = true;
+          audioRef.current.pause();
+          setIsPlaying(false);
+        }
+      } else {
+        // When user comes back to the tab, resume if it was playing before
+        if (wasPlayingBeforeHiddenRef.current && audioRef.current && !audioError) {
+          audioRef.current
+            .play()
+            .then(() => {
+              setIsPlaying(true);
+              wasPlayingBeforeHiddenRef.current = false;
+            })
+            .catch((err) => {
+              console.info('Playback resume on visibility change intercepted:', err);
+            });
+        }
+      }
+    };
+
+    const handlePageHide = () => {
+      if (audioRef.current && !audioRef.current.paused) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('pagehide', handlePageHide);
+
     return () => {
       audio.removeEventListener('error', handleError);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('pagehide', handlePageHide);
       audio.pause();
       audio.src = '';
     };
-  }, [audioUrl]);
+  }, [audioUrl, audioError]);
 
   // Handle triggered playback when user clicks "Open Invitation"
   useEffect(() => {
