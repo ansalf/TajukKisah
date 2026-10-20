@@ -95,6 +95,9 @@ export const App: React.FC = () => {
     return <LandingPage onNavigate={navigateTo} />;
   };
 
+  const isInvitationRoute =
+    currentPath.startsWith('/wedding/') || currentPath.startsWith('/invitation/');
+
   return (
     <AuthProvider>
       <div
@@ -108,11 +111,11 @@ export const App: React.FC = () => {
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
-        <Navbar currentPath={currentPath} onNavigate={navigateTo} />
+        {!isInvitationRoute && <Navbar currentPath={currentPath} onNavigate={navigateTo} />}
         <main id="main-content" tabIndex={-1} style={{ flex: 1, outline: 'none' }}>
           {renderCurrentView()}
         </main>
-        <Footer onNavigate={navigateTo} />
+        {!isInvitationRoute && <Footer onNavigate={navigateTo} />}
       </div>
     </AuthProvider>
   );

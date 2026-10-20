@@ -226,17 +226,17 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
               />
             )}
 
-      {/* Top Floating Editorial Toolbar */}
+      {/* Top Floating Editorial Toolbar (Docked cleanly at top) */}
       <div
         style={{
           position: 'sticky',
-          top: '80px',
+          top: 0,
           zIndex: 40,
-          backgroundColor: isDark ? 'rgba(26, 6, 11, 0.96)' : 'rgba(255, 252, 247, 0.94)',
-          backdropFilter: 'blur(12px)',
-          borderBottom: isDark ? '1px solid rgba(212, 175, 55, 0.25)' : `1px solid ${themeBorder}`,
-          padding: '12px 24px',
-          boxShadow: isDark ? '0 4px 20px rgba(0,0,0,0.35)' : 'none',
+          backgroundColor: isDark ? '#1E0E13' : 'rgba(255, 252, 247, 0.98)',
+          backdropFilter: 'blur(16px)',
+          borderBottom: isDark ? '1px solid rgba(212, 175, 55, 0.35)' : `1px solid ${themeBorder}`,
+          padding: '12px 16px',
+          boxShadow: isDark ? '0 4px 20px rgba(0,0,0,0.4)' : '0 2px 10px rgba(0,0,0,0.04)',
         }}
       >
         <div
