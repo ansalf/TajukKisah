@@ -422,6 +422,11 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
       ) : (
       <main
         style={{
+          '--invitation-bg': themeBg,
+          '--invitation-surface': themeSurface,
+          '--invitation-text': themeText,
+          '--invitation-accent': themeAccent,
+          '--invitation-border': themeBorder,
           maxWidth: '740px',
           width: 'min(calc(100% - 24px), 740px)',
           margin: '24px auto 80px',
@@ -434,7 +439,7 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
           position: 'relative',
           padding: 'clamp(16px, 5vw, 64px)',
           boxSizing: 'border-box',
-        }}
+        } as React.CSSProperties}
       >
         <div
           style={{
@@ -727,6 +732,7 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
               accentColor={themeAccent}
               textColor={themeText}
               borderColor={themeBorder}
+              surfaceColor={themeBg}
             />
           </section>
 

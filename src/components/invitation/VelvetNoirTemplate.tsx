@@ -153,10 +153,10 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
             style={{
               width: '100%',
               maxWidth: '380px',
-              backgroundColor: '#4D0E19',
+              backgroundColor: themeSurface,
               borderRadius: '6px',
               boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-              border: '1px solid rgba(212, 175, 55, 0.3)',
+              border: `1px solid ${themeBorder}`,
               position: 'relative',
               padding: '40px 24px',
               textAlign: 'center',
@@ -170,9 +170,10 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
                 left: 0,
                 right: 0,
                 height: '80px',
-                borderBottom: '1px solid rgba(212, 175, 55, 0.25)',
+                borderBottom: `1px solid ${themeBorder}`,
                 clipPath: 'polygon(0 0, 100% 0, 50% 100%)',
-                backgroundColor: '#3E0B14',
+                backgroundColor: themeBg,
+                opacity: 0.85,
               }}
             />
 
@@ -182,8 +183,8 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
                 width: '64px',
                 height: '64px',
                 borderRadius: '50%',
-                background: 'radial-gradient(circle at 35% 35%, #F0D58A 0%, #C7A66A 50%, #8C6A2E 100%)',
-                border: '2px solid #5A4017',
+                background: `radial-gradient(circle at 35% 35%, #F0D58A 0%, ${themeAccent} 60%, #5A4017 100%)`,
+                border: '2px solid rgba(0,0,0,0.4)',
                 boxShadow: '0 8px 20px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.4)',
                 margin: '20px auto 24px',
                 display: 'flex',
@@ -199,7 +200,7 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
                   fontSize: '1.75rem',
                   fontWeight: 'bold',
                   fontStyle: 'italic',
-                  color: '#4A1423',
+                  color: themeSurface,
                   textShadow: '0 1px 1px rgba(255,255,255,0.6)',
                 }}
               >
@@ -212,7 +213,7 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.2em',
-                color: '#D4AF37',
+                color: themeAccent,
                 marginBottom: '6px',
               }}
             >
@@ -223,7 +224,7 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
                 fontFamily: 'var(--font-serif)',
                 fontSize: '1.4rem',
                 fontStyle: 'italic',
-                color: '#FAF4EC',
+                color: themeText,
               }}
             >
               {guestName}
@@ -300,7 +301,7 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
                 fontFamily: 'var(--font-serif)',
                 fontSize: '1.85rem',
                 fontStyle: 'italic',
-                color: '#651F32',
+                color: themeAccent,
                 marginBottom: '16px',
               }}
             >
@@ -440,7 +441,7 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
               fontFamily: 'var(--font-serif)',
               fontSize: '1.75rem',
               fontStyle: 'italic',
-              color: '#651F32',
+              color: themeAccent,
               marginBottom: '10px',
             }}
           >
@@ -460,12 +461,24 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
             <span style={{ fontSize: '0.8rem', color: '#7E666C', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
               Guest Arrival at
             </span>
-            <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.6rem', color: '#651F32', fontWeight: 600 }}>
+            <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.6rem', color: themeAccent, fontWeight: 600 }}>
               {event.reception.time || '06:00 PM'}
             </div>
           </div>
 
-          <Button variant="primary" size="md" isFullWidth onClick={onOpenMap} icon={<MapPin size={16} />}>
+          <Button
+            variant="primary"
+            size="md"
+            isFullWidth
+            onClick={onOpenMap}
+            icon={<MapPin size={16} />}
+            style={{
+              backgroundColor: themeAccent,
+              borderColor: themeAccent,
+              color: '#1E0E13',
+              fontWeight: 600,
+            }}
+          >
             View Location on Google Maps
           </Button>
         </motion.section>
@@ -680,7 +693,7 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
                 fontFamily: 'var(--font-serif)',
                 fontSize: '2.1rem',
                 fontStyle: 'italic',
-                color: '#651F32',
+                color: themeAccent,
                 marginBottom: '8px',
               }}
             >
@@ -693,8 +706,8 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
 
           {isSubmitted ? (
             <div style={{ textAlign: 'center', padding: '24px 12px' }}>
-              <CheckCircle2 size={40} color="#651F32" style={{ margin: '0 auto 12px' }} />
-              <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', color: '#651F32', marginBottom: '6px' }}>
+              <CheckCircle2 size={40} color={themeAccent} style={{ margin: '0 auto 12px' }} />
+              <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', color: themeAccent, marginBottom: '6px' }}>
                 Thank You for Your Confirmation!
               </div>
               <p style={{ fontSize: '0.85rem', color: '#6A565C' }}>
@@ -740,7 +753,7 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
                       name="velvet-attendance"
                       checked={attendance === 'attending'}
                       onChange={() => setAttendance('attending')}
-                      style={{ accentColor: '#651F32', width: '18px', height: '18px' }}
+                      style={{ accentColor: themeAccent, width: '18px', height: '18px' }}
                     />
                     <span>Yes, I will attend with pleasure</span>
                   </label>
@@ -750,7 +763,7 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
                       name="velvet-attendance"
                       checked={attendance === 'declined'}
                       onChange={() => setAttendance('declined')}
-                      style={{ accentColor: '#651F32', width: '18px', height: '18px' }}
+                      style={{ accentColor: themeAccent, width: '18px', height: '18px' }}
                     />
                     <span>Regretfully, I will not be able to attend</span>
                   </label>
@@ -768,7 +781,7 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
                         type="checkbox"
                         checked={beverage.includes(item)}
                         onChange={() => toggleBeverage(item)}
-                        style={{ accentColor: '#651F32', width: '18px', height: '18px' }}
+                        style={{ accentColor: themeAccent, width: '18px', height: '18px' }}
                       />
                       <span>{item}</span>
                     </label>
@@ -783,6 +796,12 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
                 type="submit"
                 icon={<Send size={15} aria-hidden="true" />}
                 aria-label="Submit RSVP response"
+                style={{
+                  backgroundColor: themeAccent,
+                  borderColor: themeAccent,
+                  color: '#1E0E13',
+                  fontWeight: 600,
+                }}
               >
                 Submit RSVP
               </Button>

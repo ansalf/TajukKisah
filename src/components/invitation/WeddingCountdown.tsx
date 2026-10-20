@@ -5,6 +5,7 @@ interface WeddingCountdownProps {
   accentColor?: string;
   textColor?: string;
   borderColor?: string;
+  surfaceColor?: string;
 }
 
 interface TimeLeft {
@@ -20,6 +21,7 @@ export const WeddingCountdown: React.FC<WeddingCountdownProps> = ({
   accentColor = 'var(--color-burgundy)',
   textColor = 'var(--color-espresso)',
   borderColor = 'rgba(101, 31, 50, 0.15)',
+  surfaceColor = 'rgba(255, 252, 247, 0.65)',
 }) => {
   const calculateTimeLeft = (): TimeLeft => {
     const target = new Date(targetDate).getTime();
@@ -72,7 +74,7 @@ export const WeddingCountdown: React.FC<WeddingCountdownProps> = ({
             key={i}
             style={{
               padding: '16px 8px',
-              backgroundColor: 'rgba(255, 252, 247, 0.65)',
+              backgroundColor: surfaceColor,
               border: `1px solid ${borderColor}`,
               textAlign: 'center',
               borderRadius: '2px',
