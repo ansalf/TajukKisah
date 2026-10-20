@@ -93,6 +93,12 @@ export const Button: React.FC<ButtonProps> = ({
       }}
       onMouseEnter={(e) => {
         if (disabled) return;
+        if (style?.color) {
+          // If custom color is provided (e.g. dark mode override), respect it
+          e.currentTarget.style.opacity = '0.85';
+          e.currentTarget.style.transform = 'translateY(-1px)';
+          return;
+        }
         if (variant === 'primary') {
           e.currentTarget.style.backgroundColor = 'var(--color-burgundy-dark)';
           e.currentTarget.style.transform = 'translateY(-1px)';
@@ -111,6 +117,10 @@ export const Button: React.FC<ButtonProps> = ({
       onMouseLeave={(e) => {
         if (disabled) return;
         e.currentTarget.style.transform = 'none';
+        if (style?.color) {
+          e.currentTarget.style.opacity = '1';
+          return;
+        }
         if (variant === 'primary') {
           e.currentTarget.style.backgroundColor = 'var(--color-burgundy)';
         } else if (variant === 'secondary') {

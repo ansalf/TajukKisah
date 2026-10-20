@@ -336,14 +336,16 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
             <Button
               variant="outline"
               size="sm"
-              icon={hasShared ? <Check size={14} /> : <Share2 size={14} />}
+              icon={hasShared ? <Check size={14} color={isDark ? '#F5EBE1' : undefined} /> : <Share2 size={14} color={isDark ? '#F5EBE1' : undefined} />}
               onClick={handleShare}
               style={
                 isDark
                   ? {
                       color: '#F5EBE1',
-                      borderColor: 'rgba(212, 175, 55, 0.6)',
-                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                      borderColor: '#D4AF37',
+                      backgroundColor: 'rgba(212, 175, 55, 0.12)',
+                      fontWeight: 600,
+                      letterSpacing: '0.08em',
                     }
                   : undefined
               }
