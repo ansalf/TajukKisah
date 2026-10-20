@@ -260,7 +260,11 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
         {/* =========================================
             PARCHMENT CARD: INVITATION GREETING & CALENDAR
         ========================================= */}
-        <section
+        <motion.section
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{
             backgroundColor: '#FAF5EE',
             color: '#2A151B',
@@ -383,12 +387,16 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
               </div>
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* =========================================
             PARCHMENT CARD: VENUE & MAP
         ========================================= */}
-        <section
+        <motion.section
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{
             backgroundColor: '#FAF5EE',
             color: '#2A151B',
@@ -449,12 +457,18 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
           <Button variant="primary" size="md" isFullWidth onClick={onOpenMap} icon={<MapPin size={16} />}>
             View Location on Google Maps
           </Button>
-        </section>
+        </motion.section>
 
         {/* =========================================
             DRAMATIC FLORAL STILL LIFE / HAND HOLDING BOUQUET
         ========================================= */}
-        <section style={{ textAlign: 'center', position: 'relative' }}>
+        <motion.section
+          initial={{ opacity: 0, scale: 0.94 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ textAlign: 'center', position: 'relative' }}
+        >
           <div
             style={{
               width: '100%',
@@ -482,12 +496,18 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
               }}
             />
           </div>
-        </section>
+        </motion.section>
 
         {/* =========================================
             PROGRAM OF THE DAY (VERTICAL BEADED TIMELINE)
         ========================================= */}
-        <section style={{ textAlign: 'center' }}>
+        <motion.section
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ textAlign: 'center' }}
+        >
           <h2
             style={{
               fontFamily: 'var(--font-serif)',
@@ -561,12 +581,16 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
               </div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* =========================================
             DRESS CODE & PALETTE SWATCHES
         ========================================= */}
-        <section
+        <motion.section
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{
             textAlign: 'center',
             padding: '36px 20px',
@@ -620,12 +644,16 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
               />
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* =========================================
             RSVP GUEST FORM
         ========================================= */}
-        <section
+        <motion.section
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{
             backgroundColor: '#FAF5EE',
             color: '#2A151B',
@@ -749,12 +777,18 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
               </Button>
             </form>
           )}
-        </section>
+        </motion.section>
 
         {/* =========================================
             CLOSING GREETING & FINAL SIGNATURE
         ========================================= */}
-        <section style={{ textAlign: 'center', paddingTop: '20px' }}>
+        <motion.section
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ textAlign: 'center', paddingTop: '20px' }}
+        >
           <div
             style={{
               fontSize: '0.75rem',
@@ -780,7 +814,7 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
             <span style={{ display: 'block', fontSize: '1.4rem', color: '#D4AF37' }}>&amp;</span>
             {couple.bride.shortName}
           </div>
-        </section>
+        </motion.section>
       </div>
     </div>
   );
