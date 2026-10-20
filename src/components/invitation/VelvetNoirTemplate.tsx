@@ -25,6 +25,11 @@ interface VelvetNoirTemplateProps {
   guestName: string;
   onOpenMap: () => void;
   onSubmitRsvp: (data: { name: string; attendance: string; guestsCount: number; message: string }) => void;
+  themeBg?: string;
+  themeSurface?: string;
+  themeAccent?: string;
+  themeText?: string;
+  themeBorder?: string;
 }
 
 export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
@@ -34,6 +39,11 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
   guestName,
   onOpenMap,
   onSubmitRsvp,
+  themeBg = '#23040A',
+  themeSurface = '#3A0C14',
+  themeAccent = '#D4AF37',
+  themeText = '#F5EBE1',
+  themeBorder = 'rgba(212, 175, 55, 0.35)',
 }) => {
   // RSVP Form state
   const [rsvpName, setRsvpName] = useState(guestName !== 'Honored Guest & Partner' ? guestName : '');
@@ -62,12 +72,13 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
   return (
     <div
       style={{
-        backgroundColor: '#23040A',
-        color: '#F4ECE4',
+        backgroundColor: themeBg,
+        color: themeText,
         fontFamily: 'var(--font-sans)',
         minHeight: '100vh',
         position: 'relative',
         overflow: 'hidden',
+        transition: 'background-color 0.4s ease, color 0.4s ease',
       }}
     >
       {/* Background ambient velvet texture */}
@@ -75,7 +86,7 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(ellipse at 50% 20%, #4D0E19 0%, #23040A 70%, #150206 100%)',
+          background: `radial-gradient(ellipse at 50% 20%, ${themeSurface} 0%, ${themeBg} 70%, #000000 100%)`,
           pointerEvents: 'none',
         }}
       />
@@ -99,14 +110,14 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          style={{ textAlign: 'center' }}
+          style={{ textAlign: 'center', borderBottom: `1px solid ${themeBorder}`, paddingBottom: '32px' }}
         >
           <div
             style={{
               fontFamily: 'var(--font-serif)',
               fontSize: '2.5rem',
               fontStyle: 'italic',
-              color: '#F5EBE1',
+              color: themeText,
               letterSpacing: '0.02em',
               lineHeight: 1.1,
               marginBottom: '6px',
@@ -120,7 +131,7 @@ export const VelvetNoirTemplate: React.FC<VelvetNoirTemplateProps> = ({
               fontSize: '0.6875rem',
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
-              color: '#D4AF37',
+              color: themeAccent,
               fontWeight: 600,
             }}
           >

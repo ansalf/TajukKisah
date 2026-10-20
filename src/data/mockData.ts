@@ -61,6 +61,16 @@ export interface WeddingData {
   galleryPhotos: string[];
 }
 
+export interface ColorVariant {
+  id: string;
+  name: string;
+  background: string;
+  surface: string;
+  text: string;
+  accent: string;
+  border: string;
+}
+
 export interface TemplateConcept {
   id: 'editorial-romance' | 'modern-botanical' | 'dark-luxury' | 'velvet-noir-editorial';
   title: string;
@@ -74,6 +84,7 @@ export interface TemplateConcept {
     border: string;
     badge: string;
   };
+  colorVariants?: ColorVariant[];
   tags: string[];
   previewImage: string;
   aestheticNotes: string;
@@ -93,6 +104,11 @@ export const TEMPLATES_DATA: TemplateConcept[] = [
       border: 'rgba(101, 31, 50, 0.15)',
       badge: 'Burgundy & Ivory',
     },
+    colorVariants: [
+      { id: 'ivory-burgundy', name: 'Burgundy Classic', background: '#F6F0E6', surface: '#FFFCF7', text: '#2A151B', accent: '#651F32', border: 'rgba(101, 31, 50, 0.15)' },
+      { id: 'ivory-rose', name: 'Dusty Rose', background: '#F8F1EE', surface: '#FFFDFC', text: '#341D24', accent: '#8E4057', border: 'rgba(142, 64, 87, 0.2)' },
+      { id: 'ivory-gold', name: 'Champagne Gold', background: '#F9F5EC', surface: '#FFFEFA', text: '#2E2619', accent: '#A07D3E', border: 'rgba(160, 125, 62, 0.22)' },
+    ],
     tags: ['Ivory & Burgundy', 'Editorial Serif', 'Timeless Heritage', 'Vignette Frames'],
     // High quality royalty-free unsplash wedding photography
     previewImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80',
@@ -111,6 +127,11 @@ export const TEMPLATES_DATA: TemplateConcept[] = [
       border: 'rgba(212, 175, 55, 0.35)',
       badge: 'Velvet Crimson & Gold Wax',
     },
+    colorVariants: [
+      { id: 'crimson-gold', name: 'Royal Crimson', background: '#2B080E', surface: '#3A0C14', text: '#F5EBE1', accent: '#D4AF37', border: 'rgba(212, 175, 55, 0.35)' },
+      { id: 'midnight-gold', name: 'Midnight Onyx', background: '#111116', surface: '#1C1C24', text: '#F5EBE1', accent: '#D4AF37', border: 'rgba(212, 175, 55, 0.35)' },
+      { id: 'emerald-gold', name: 'Imperial Emerald', background: '#0C1C14', surface: '#142B20', text: '#FAF4EC', accent: '#D4AF37', border: 'rgba(212, 175, 55, 0.35)' },
+    ],
     tags: ['Deep Crimson Velvet', 'Scalloped Parchment', 'Floral Still-Life', 'Dress Code Palette', 'Wax Seal Details'],
     previewImage: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=900&q=80',
     aestheticNotes: 'Dramatic dark burgundy-maroon background, white gloved wax seal envelope, scalloped vintage paper cards, vertical beaded timeline, and color dress code swatches.'
@@ -128,6 +149,11 @@ export const TEMPLATES_DATA: TemplateConcept[] = [
       border: 'rgba(74, 91, 69, 0.15)',
       badge: 'Warm Neutrals & Sage',
     },
+    colorVariants: [
+      { id: 'sage-olive', name: 'Sage & Olive', background: '#F9F8F5', surface: '#FFFFFF', text: '#272E27', accent: '#4A5B45', border: 'rgba(74, 91, 69, 0.2)' },
+      { id: 'terracotta-warm', name: 'Warm Terracotta', background: '#FAF5F0', surface: '#FFFFFF', text: '#36231C', accent: '#A05844', border: 'rgba(160, 88, 68, 0.2)' },
+      { id: 'eucalyptus-slate', name: 'Eucalyptus Slate', background: '#F4F7F6', surface: '#FFFFFF', text: '#1F2A28', accent: '#3E5C56', border: 'rgba(62, 92, 86, 0.2)' },
+    ],
     tags: ['Botanical Embellishments', 'Warm Neutral', 'Contemporary Layout', 'Organic Luxury'],
     previewImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80',
     aestheticNotes: 'Earthy warmth, minimalist organic laurel illustrations, fine double borders, and soft daylight photography.'
@@ -145,6 +171,11 @@ export const TEMPLATES_DATA: TemplateConcept[] = [
       border: 'rgba(199, 166, 106, 0.28)',
       badge: 'Espresso & Burnished Gold',
     },
+    colorVariants: [
+      { id: 'espresso-gold', name: 'Burnished Gold', background: '#1E0E13', surface: '#2A151B', text: '#F6F0E6', accent: '#C7A66A', border: 'rgba(199, 166, 106, 0.35)' },
+      { id: 'midnight-bronze', name: 'Antique Bronze', background: '#151416', surface: '#201F22', text: '#F6F0E6', accent: '#B88656', border: 'rgba(184, 134, 86, 0.35)' },
+      { id: 'plum-noir', name: 'Plum Royale', background: '#1B0E1B', surface: '#281528', text: '#F8EEF8', accent: '#B872A5', border: 'rgba(184, 114, 165, 0.35)' },
+    ],
     tags: ['Midnight Atmosphere', 'Burnished Gold', 'Cinematic Photography', 'Black-Tie Editorial'],
     previewImage: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=80',
     aestheticNotes: 'High-contrast drama, gold foil accents, deep espresso backgrounds, and intimate golden-hour photography.'

@@ -46,12 +46,21 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
   slug,
 }) => {
   const [activeTemplateId, setActiveTemplateId] = useState<string>(selectedTemplateId);
+  const [activeColorVariantId, setActiveColorVariantId] = useState<string>('');
   const [isOpened, setIsOpened] = useState(false);
   const [triggerAudio, setTriggerAudio] = useState(false);
   const [hasShared, setHasShared] = useState(false);
   const [loadedProject, setLoadedProject] = useState<ProjectInvitation | null>(null);
   const [isLoadingSlug, setIsLoadingSlug] = useState<boolean>(Boolean(slug));
   const [isNotFoundOrDraft, setIsNotFoundOrDraft] = useState<boolean>(false);
+
+  // Sync template from props/url parameter
+  React.useEffect(() => {
+    if (selectedTemplateId) {
+      setActiveTemplateId(selectedTemplateId);
+      setActiveColorVariantId('');
+    }
+  }, [selectedTemplateId]);
 
   // Load wedding from database or local storage by slug
   React.useEffect(() => {
@@ -113,12 +122,14 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
   const isDark = activeTemplate.id === 'dark-luxury' || activeTemplate.id === 'velvet-noir-editorial';
   const isBotanical = activeTemplate.id === 'modern-botanical';
 
-  // Dynamic Theme Palette bindings
-  const themeBg = activeTemplate.paletteTheme.background;
-  const themeSurface = activeTemplate.paletteTheme.surface;
-  const themeText = activeTemplate.paletteTheme.text;
-  const themeAccent = activeTemplate.paletteTheme.accent;
-  const themeBorder = activeTemplate.paletteTheme.border;
+  // Dynamic Theme Palette bindings with active color variant support
+  const activeVariant = activeTemplate.colorVariants?.find((v) => v.id === activeColorVariantId);
+
+  const themeBg = activeVariant?.background || activeTemplate.paletteTheme.background;
+  const themeSurface = activeVariant?.surface || activeTemplate.paletteTheme.surface;
+  const themeText = activeVariant?.text || activeTemplate.paletteTheme.text;
+  const themeAccent = activeVariant?.accent || activeTemplate.paletteTheme.accent;
+  const themeBorder = activeVariant?.border || activeTemplate.paletteTheme.border;
 
   // Web Share API with copy-link fallback
   const handleShare = async () => {
@@ -282,57 +293,69 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
             </span>
           </div>
 
-          {/* Quick Style Switcher (Responsive, wrapped nicely on small screens) */}
-          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
-            <span
-              style={{
-                fontSize: '0.7rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                fontWeight: 600,
-                color: isDark ? '#E5D6C5' : 'var(--color-charcoal-muted)',
-                marginRight: '2px',
-              }}
-            >
-              Theme:
-            </span>
+          {/* Color Palette Switcher for the active template */}
+          {activeTemplate.colorVariants && activeTemplate.colorVariants.length > 0 && (
             <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
-              {TEMPLATES_DATA.map((t) => {
-                const isSelected = t.id === activeTemplateId;
-                const selectedTextColor = t.id === 'velvet-noir-editorial' || isDark ? '#1E0E13' : '#FFFFFF';
-                return (
-                  <button
-                    key={t.id}
-                    onClick={() => setActiveTemplateId(t.id)}
-                    aria-pressed={isSelected}
-                    aria-label={`Switch to ${t.title} theme`}
-                    style={{
-                      padding: '5px 10px',
-                      fontSize: '0.725rem',
-                      fontFamily: 'var(--font-sans)',
-                      fontWeight: 600,
-                      letterSpacing: '0.03em',
-                      borderRadius: '2px',
-                      border: isSelected
-                        ? (isDark ? '1px solid #D4AF37' : `1px solid ${themeAccent}`)
-                        : (isDark ? '1px solid rgba(212, 175, 55, 0.4)' : `1px solid ${themeBorder}`),
-                      backgroundColor: isSelected
-                        ? (isDark ? '#D4AF37' : themeAccent)
-                        : (isDark ? 'rgba(255, 255, 255, 0.08)' : 'transparent'),
-                      color: isSelected
-                        ? selectedTextColor
-                        : (isDark ? '#F5EBE1' : 'var(--color-espresso)'),
-                      transition: 'all 0.2s ease',
-                      cursor: 'pointer',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {t.title.split(' ')[0]}
-                  </button>
-                );
-              })}
+              <span
+                style={{
+                  fontSize: '0.7rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  fontWeight: 600,
+                  color: isDark ? '#E5D6C5' : 'var(--color-charcoal-muted)',
+                  marginRight: '2px',
+                }}
+              >
+                Palette:
+              </span>
+              <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
+                {activeTemplate.colorVariants.map((v) => {
+                  const isSelected = (activeColorVariantId || activeTemplate.colorVariants![0].id) === v.id;
+                  return (
+                    <button
+                      key={v.id}
+                      onClick={() => setActiveColorVariantId(v.id)}
+                      aria-pressed={isSelected}
+                      aria-label={`Switch palette to ${v.name}`}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        padding: '4px 8px',
+                        fontSize: '0.725rem',
+                        fontFamily: 'var(--font-sans)',
+                        fontWeight: 600,
+                        letterSpacing: '0.02em',
+                        borderRadius: '3px',
+                        border: isSelected
+                          ? (isDark ? '1px solid #D4AF37' : `1px solid ${themeAccent}`)
+                          : (isDark ? '1px solid rgba(212, 175, 55, 0.3)' : `1px solid ${themeBorder}`),
+                        backgroundColor: isSelected
+                          ? (isDark ? 'rgba(212, 175, 55, 0.2)' : 'rgba(0, 0, 0, 0.05)')
+                          : (isDark ? 'rgba(255, 255, 255, 0.04)' : 'transparent'),
+                        color: isDark ? '#F5EBE1' : 'var(--color-espresso)',
+                        transition: 'all 0.2s ease',
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: '10px',
+                          height: '10px',
+                          borderRadius: '50%',
+                          backgroundColor: v.accent,
+                          border: '1px solid rgba(255, 255, 255, 0.6)',
+                          display: 'inline-block',
+                        }}
+                      />
+                      <span>{v.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Actions: Order & Share */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -378,6 +401,11 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
           onSubmitRsvp={(data) => {
             console.log('RSVP Submitted:', data);
           }}
+          themeBg={themeBg}
+          themeSurface={themeSurface}
+          themeAccent={themeAccent}
+          themeText={themeText}
+          themeBorder={themeBorder}
         />
       ) : (
       <main
