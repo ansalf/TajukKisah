@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { DEMO_COUPLE, TEMPLATES_DATA, TemplateConcept } from '../data/mockData';
 import {
   GALLERY_ITEMS,
@@ -46,7 +47,6 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
 }) => {
   const [activeTemplateId, setActiveTemplateId] = useState<string>(selectedTemplateId);
   const [isOpened, setIsOpened] = useState(false);
-  const [isCoverExiting, setIsCoverExiting] = useState(false);
   const [triggerAudio, setTriggerAudio] = useState(false);
   const [hasShared, setHasShared] = useState(false);
   const [loadedProject, setLoadedProject] = useState<ProjectInvitation | null>(null);
@@ -177,53 +177,54 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
     );
   }
 
-  // 1. OPENING COVER VIEW WITH ELEGANT TRANSITION
-  if (!isOpened) {
-    return (
-      <InvitationCover
-        groomName={couple.groom.shortName}
-        brideName={couple.bride.shortName}
-        dateFormatted={event.dateFormatted}
-        guestName={guestName}
-        heroPhoto={heroPhoto}
-        accentColor={themeAccent}
-        textColor={themeText}
-        backgroundColor={themeBg}
-        isExiting={isCoverExiting}
-        onOpenInvitation={() => {
-          setIsCoverExiting(true);
-          // Check prefers-reduced-motion
-          const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          const exitDuration = prefersReducedMotion ? 0 : 500;
-          setTimeout(() => {
-            setIsOpened(true);
-            setTriggerAudio(true);
-            window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-          }, exitDuration);
-        }}
-      />
-    );
-  }
-
-  // 2. COMPLETE INVITATION CONTENT
   return (
-    <div
-      className="invitation-content-enter"
-      style={{
-        backgroundColor: themeBg,
-        minHeight: '100vh',
-        transition: 'background-color 0.4s ease',
-      }}
-    >
-      {/* Floating Audio Soundtrack Player */}
-      {features.showAudio && (
-        <InvitationAudioPlayer
-          accentColor={themeAccent}
-          audioUrl={features.audioUrl}
-          autoPlayTrigger={triggerAudio}
-          songTitle={`${couple.groom.shortName} & ${couple.bride.shortName} Melody`}
-        />
-      )}
+    <div style={{ backgroundColor: themeBg, minHeight: '100vh', position: 'relative' }}>
+      <AnimatePresence mode="wait">
+        {!isOpened ? (
+          <motion.div
+            key="invitation-cover"
+            initial={{ opacity: 1, scale: 1 }}
+            exit={{
+              opacity: 0,
+              y: -80,
+              scale: 0.96,
+              transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+            }}
+            style={{ width: '100%', minHeight: '100vh', position: 'fixed', inset: 0, zIndex: 100, overflowY: 'auto' }}
+          >
+            <InvitationCover
+              groomName={couple.groom.shortName}
+              brideName={couple.bride.shortName}
+              dateFormatted={event.dateFormatted}
+              guestName={guestName}
+              heroPhoto={heroPhoto}
+              accentColor={themeAccent}
+              textColor={themeText}
+              backgroundColor={themeBg}
+              onOpenInvitation={() => {
+                setIsOpened(true);
+                setTriggerAudio(true);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="invitation-content"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            style={{ width: '100%' }}
+          >
+            {/* Floating Audio Soundtrack Player */}
+            {features.showAudio && (
+              <InvitationAudioPlayer
+                accentColor={themeAccent}
+                audioUrl={features.audioUrl}
+                autoPlayTrigger={triggerAudio}
+                songTitle={`${couple.groom.shortName} & ${couple.bride.shortName} Melody`}
+              />
+            )}
 
       {/* Top Floating Editorial Toolbar */}
       <div
@@ -401,7 +402,13 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
           }}
         >
           {/* Section 1: Monogram & Header */}
-          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            style={{ textAlign: 'center', marginBottom: '32px' }}
+          >
             <div
               style={{
                 fontFamily: 'var(--font-serif)',
@@ -428,10 +435,16 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
             >
               The Wedding Celebration of
             </span>
-          </div>
+          </motion.div>
 
           {/* Section 2: Couple Names Hero */}
-          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 24 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            style={{ textAlign: 'center', marginBottom: '36px' }}
+          >
             <h1
               style={{
                 fontFamily: 'var(--font-serif)',
@@ -457,10 +470,14 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
               </span>
               {couple.bride.shortName}
             </h1>
-          </div>
+          </motion.div>
 
           {/* Section 3: Main Editorial Photography */}
-          <div
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             style={{
               marginBottom: '40px',
               border: `1px solid ${themeBorder}`,
@@ -473,10 +490,16 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
               alt={`${couple.groom.shortName} and ${couple.bride.shortName} Wedding Celebration`}
               aspectRatio="4/5"
             />
-          </div>
+          </motion.div>
 
           {/* Section 4: Sacred Vow / Quote */}
-          <div style={{ textAlign: 'center', maxWidth: '480px', margin: '0 auto 40px' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            style={{ textAlign: 'center', maxWidth: '480px', margin: '0 auto 40px' }}
+          >
             <p
               style={{
                 fontFamily: 'var(--font-serif)',
@@ -501,7 +524,7 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
             >
               — {couple.quoteSource}
             </span>
-          </div>
+          </motion.div>
 
           <DecorativeDivider
             variant="monogram"
@@ -971,6 +994,9 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
         </div>
       </main>
       )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
