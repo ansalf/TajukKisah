@@ -37,8 +37,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: '64px',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+              gap: 'clamp(32px, 6vw, 64px)',
               alignItems: 'center',
             }}
           >
@@ -348,7 +348,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
               gap: '32px',
               marginBottom: '48px',
             }}

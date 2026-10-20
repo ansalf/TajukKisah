@@ -69,10 +69,11 @@ export const App: React.FC = () => {
       const slug = currentPath.startsWith('/wedding/')
         ? currentPath.replace('/wedding/', '')
         : currentPath.replace('/invitation/', '');
-      const initialTemplate = queryParams.get('template') || 'editorial-romance';
+      const initialTemplate = queryParams.get('template') || undefined;
       const guestName = queryParams.get('to') || queryParams.get('guest') || queryParams.get('name') || undefined;
       return (
         <InvitationPreviewPage
+          key={`${slug}-${initialTemplate || 'default'}`}
           onNavigate={navigateTo}
           selectedTemplateId={initialTemplate}
           guestNameParam={guestName}

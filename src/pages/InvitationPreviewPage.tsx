@@ -41,11 +41,11 @@ interface InvitationPreviewPageProps {
 
 export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
   onNavigate,
-  selectedTemplateId = 'editorial-romance',
+  selectedTemplateId,
   guestNameParam,
   slug,
 }) => {
-  const [activeTemplateId, setActiveTemplateId] = useState<string>(selectedTemplateId);
+  const [activeTemplateId, setActiveTemplateId] = useState<string>(selectedTemplateId || 'editorial-romance');
   const [activeColorVariantId, setActiveColorVariantId] = useState<string>('');
   const [isOpened, setIsOpened] = useState(false);
   const [triggerAudio, setTriggerAudio] = useState(false);
@@ -74,7 +74,10 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
           setIsNotFoundOrDraft(true);
         } else {
           setLoadedProject(data);
-          setActiveTemplateId(data.templateId);
+          // If no specific template was forced in the URL/props, use the project's saved template
+          if (!selectedTemplateId) {
+            setActiveTemplateId(data.templateId);
+          }
         }
       } else {
         // Fallback: check local storage projects
@@ -85,14 +88,17 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
             setIsNotFoundOrDraft(true);
           } else {
             setLoadedProject(found);
-            setActiveTemplateId(found.templateId);
+            // If no specific template was forced in the URL/props, use the project's saved template
+            if (!selectedTemplateId) {
+              setActiveTemplateId(found.templateId);
+            }
           }
         } else if (slug !== 'aditya-amara') {
           setIsNotFoundOrDraft(true);
         }
       }
     });
-  }, [slug]);
+  }, [slug, selectedTemplateId]);
 
   // Safe fallback for guest name
   const guestName = guestNameParam && guestNameParam.trim() ? guestNameParam.trim() : 'Honored Guest & Partner';
@@ -257,23 +263,28 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '16px',
+            gap: '10px 14px',
+            paddingLeft: 'clamp(10px, 3vw, 24px)',
+            paddingRight: 'clamp(10px, 3vw, 24px)',
           }}
         >
           {/* Back to Gallery */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
             <button
               onClick={() => onNavigate('/templates')}
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
-                fontSize: '0.8125rem',
+                gap: '5px',
+                fontSize: '0.8rem',
                 color: isDark ? '#F5EBE1' : 'var(--color-espresso)',
                 fontWeight: 600,
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
                 cursor: 'pointer',
+                background: 'none',
+                border: 'none',
+                padding: '4px 0',
               }}
             >
               <ArrowLeft size={14} />
@@ -282,7 +293,7 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
             <span style={{ color: isDark ? 'rgba(212, 175, 55, 0.4)' : themeBorder }}>•</span>
             <span
               style={{
-                fontSize: '0.875rem',
+                fontSize: '0.85rem',
                 fontFamily: 'var(--font-serif)',
                 fontStyle: 'italic',
                 fontWeight: 600,
@@ -298,7 +309,7 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
             <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
               <span
                 style={{
-                  fontSize: '0.7rem',
+                  fontSize: '0.6875rem',
                   textTransform: 'uppercase',
                   letterSpacing: '0.1em',
                   fontWeight: 600,
@@ -308,7 +319,7 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
               >
                 Palette:
               </span>
-              <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '5px' }}>
                 {activeTemplate.colorVariants.map((v) => {
                   const isSelected = (activeColorVariantId || activeTemplate.colorVariants![0].id) === v.id;
                   return (
@@ -322,7 +333,7 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
                         alignItems: 'center',
                         gap: '5px',
                         padding: '4px 8px',
-                        fontSize: '0.725rem',
+                        fontSize: '0.7rem',
                         fontFamily: 'var(--font-sans)',
                         fontWeight: 600,
                         letterSpacing: '0.02em',
@@ -341,12 +352,13 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
                     >
                       <span
                         style={{
-                          width: '10px',
-                          height: '10px',
+                          width: '9px',
+                          height: '9px',
                           borderRadius: '50%',
                           backgroundColor: v.accent,
                           border: '1px solid rgba(255, 255, 255, 0.6)',
                           display: 'inline-block',
+                          flexShrink: 0,
                         }}
                       />
                       <span>{v.name}</span>
@@ -358,7 +370,7 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
           )}
 
           {/* Actions: Order & Share */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             <Button
               variant="outline"
               size="sm"
@@ -411,7 +423,8 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
       <main
         style={{
           maxWidth: '740px',
-          margin: '40px auto 80px',
+          width: 'min(calc(100% - 24px), 740px)',
+          margin: '24px auto 80px',
           backgroundColor: themeSurface,
           border: `1px solid ${themeBorder}`,
           boxShadow: isDark
@@ -419,7 +432,8 @@ export const InvitationPreviewPage: React.FC<InvitationPreviewPageProps> = ({
             : '0 24px 64px rgba(42, 21, 27, 0.08)',
           color: themeText,
           position: 'relative',
-          padding: 'clamp(24px, 5vw, 64px)',
+          padding: 'clamp(16px, 5vw, 64px)',
+          boxSizing: 'border-box',
         }}
       >
         <div

@@ -99,13 +99,13 @@ export const TemplateGalleryPage: React.FC<TemplateGalleryPageProps> = ({
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: '56px',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+              gap: 'clamp(32px, 5vw, 56px)',
               alignItems: 'start',
             }}
           >
             {/* Left: Detailed Template Spotlight & Mock Preview */}
-            <div>
+            <div style={{ width: '100%', minWidth: 0 }}>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={selectedTemplate.id}
@@ -117,10 +117,12 @@ export const TemplateGalleryPage: React.FC<TemplateGalleryPageProps> = ({
                     backgroundColor: selectedTemplate.paletteTheme.background,
                     color: selectedTemplate.paletteTheme.text,
                     border: `1px solid ${selectedTemplate.paletteTheme.border}`,
-                    padding: '36px',
+                    padding: 'clamp(20px, 4vw, 36px)',
                     position: 'relative',
                     boxShadow: 'var(--shadow-elevated)',
                     borderRadius: '2px',
+                    boxSizing: 'border-box',
+                    width: '100%',
                   }}
                 >
                 {/* Monogram / Header Badge inside preview */}
@@ -301,7 +303,7 @@ export const TemplateGalleryPage: React.FC<TemplateGalleryPageProps> = ({
                 {selectedTemplate.description}
               </p>
 
-              {/* Color Swatches Grid */}
+              {/* Color Swatches Grid & Variants */}
               <div style={{ marginBottom: '32px' }}>
                 <h4
                   style={{
@@ -316,7 +318,7 @@ export const TemplateGalleryPage: React.FC<TemplateGalleryPageProps> = ({
                 >
                   Color Palette Harmony
                 </h4>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))', gap: '10px', marginBottom: '16px' }}>
                   {[
                     { label: 'Background', val: selectedTemplate.paletteTheme.background },
                     { label: 'Surface', val: selectedTemplate.paletteTheme.surface },
@@ -326,27 +328,78 @@ export const TemplateGalleryPage: React.FC<TemplateGalleryPageProps> = ({
                       key={i}
                       style={{
                         border: '1px solid var(--color-border-subtle)',
-                        padding: '12px',
+                        padding: '10px 8px',
                         backgroundColor: 'var(--color-warm-white)',
+                        textAlign: 'center',
+                        boxSizing: 'border-box',
                       }}
                     >
                       <div
                         style={{
-                          height: '36px',
+                          height: '32px',
                           backgroundColor: colorItem.val,
                           border: '1px solid rgba(0,0,0,0.08)',
-                          marginBottom: '8px',
+                          marginBottom: '6px',
                         }}
                       />
-                      <span style={{ fontSize: '0.75rem', fontWeight: 600, display: 'block' }}>
+                      <span style={{ fontSize: '0.72rem', fontWeight: 600, display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {colorItem.label}
                       </span>
-                      <span style={{ fontSize: '0.7rem', color: 'var(--color-charcoal-muted)' }}>
+                      <span style={{ fontSize: '0.68rem', color: 'var(--color-charcoal-muted)' }}>
                         {colorItem.val}
                       </span>
                     </div>
                   ))}
                 </div>
+
+                {/* Available Color Variants for this template */}
+                {selectedTemplate.colorVariants && selectedTemplate.colorVariants.length > 0 && (
+                  <div>
+                    <span
+                      style={{
+                        fontSize: '0.72rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.1em',
+                        color: 'var(--color-charcoal-muted)',
+                        fontWeight: 600,
+                        display: 'block',
+                        marginBottom: '8px',
+                      }}
+                    >
+                      Included Palette Variants:
+                    </span>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                      {selectedTemplate.colorVariants.map((v) => (
+                        <div
+                          key={v.id}
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            padding: '4px 10px',
+                            backgroundColor: 'var(--color-ivory)',
+                            border: '1px solid var(--color-border-subtle)',
+                            fontSize: '0.75rem',
+                            fontWeight: 500,
+                            color: 'var(--color-espresso)',
+                          }}
+                        >
+                          <span
+                            style={{
+                              width: '10px',
+                              height: '10px',
+                              borderRadius: '50%',
+                              backgroundColor: v.accent,
+                              display: 'inline-block',
+                              border: '1px solid rgba(0,0,0,0.15)',
+                            }}
+                          />
+                          <span>{v.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Curated Aesthetic Pillars */}
@@ -419,7 +472,7 @@ export const TemplateGalleryPage: React.FC<TemplateGalleryPageProps> = ({
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
                 gap: '24px',
               }}
             >
