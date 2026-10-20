@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { TEMPLATES_DATA } from '../data/mockData';
 import { SectionHeading } from '../components/common/SectionHeading';
 import { Button } from '../components/common/Button';
@@ -105,17 +106,23 @@ export const TemplateGalleryPage: React.FC<TemplateGalleryPageProps> = ({
           >
             {/* Left: Detailed Template Spotlight & Mock Preview */}
             <div>
-              <div
-                style={{
-                  backgroundColor: selectedTemplate.paletteTheme.background,
-                  color: selectedTemplate.paletteTheme.text,
-                  border: `1px solid ${selectedTemplate.paletteTheme.border}`,
-                  padding: '36px',
-                  position: 'relative',
-                  boxShadow: 'var(--shadow-elevated)',
-                  borderRadius: '2px',
-                }}
-              >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={selectedTemplate.id}
+                  initial={{ opacity: 0, scale: 0.98, y: 16 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.98, y: -16 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  style={{
+                    backgroundColor: selectedTemplate.paletteTheme.background,
+                    color: selectedTemplate.paletteTheme.text,
+                    border: `1px solid ${selectedTemplate.paletteTheme.border}`,
+                    padding: '36px',
+                    position: 'relative',
+                    boxShadow: 'var(--shadow-elevated)',
+                    borderRadius: '2px',
+                  }}
+                >
                 {/* Monogram / Header Badge inside preview */}
                 <div style={{ textAlign: 'center', marginBottom: '28px' }}>
                   <span
@@ -243,8 +250,9 @@ export const TemplateGalleryPage: React.FC<TemplateGalleryPageProps> = ({
                     Order This Theme
                   </Button>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
             {/* Right: Technical & Art Direction Specs */}
             <div>
@@ -416,18 +424,23 @@ export const TemplateGalleryPage: React.FC<TemplateGalleryPageProps> = ({
               }}
             >
               {TEMPLATES_DATA.map((t, idx) => (
-                <div
+                <motion.div
                   key={t.id}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
                   onClick={() => setSelectedTemplateId(t.id)}
                   style={{
                     padding: '24px',
                     backgroundColor: t.id === selectedTemplateId ? 'var(--color-ivory)' : 'var(--color-warm-white)',
                     border: t.id === selectedTemplateId ? '1.5px solid var(--color-burgundy)' : '1px solid var(--color-border-subtle)',
                     cursor: 'pointer',
-                    transition: 'all 0.2s ease',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
+                    boxShadow: t.id === selectedTemplateId ? '0 8px 24px rgba(101, 31, 50, 0.12)' : 'none',
                   }}
                 >
                   <div>
@@ -505,7 +518,7 @@ export const TemplateGalleryPage: React.FC<TemplateGalleryPageProps> = ({
                       <span>Order</span>
                     </button>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>

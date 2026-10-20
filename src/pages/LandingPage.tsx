@@ -353,10 +353,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               marginBottom: '48px',
             }}
           >
-            {TEMPLATES_DATA.map((template) => (
+            {TEMPLATES_DATA.map((template, idx) => (
               <TemplateCard
                 key={template.id}
                 template={template}
+                index={idx}
                 onSelect={(id) => onNavigate(`/templates?selected=${id}`)}
               />
             ))}

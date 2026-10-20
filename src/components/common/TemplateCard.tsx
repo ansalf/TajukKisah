@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { TemplateConcept } from '../../data/mockData';
 import { SafeImage } from '../common/SafeImage';
 import { Button } from '../common/Button';
@@ -8,15 +9,26 @@ interface TemplateCardProps {
   template: TemplateConcept;
   onSelect: (templateId: string) => void;
   featured?: boolean;
+  index?: number;
 }
 
 export const TemplateCard: React.FC<TemplateCardProps> = ({
   template,
   onSelect,
   featured = false,
+  index = 0,
 }) => {
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.12,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+      whileHover={{ y: -6, transition: { duration: 0.25, ease: 'easeOut' } }}
       style={{
         backgroundColor: template.paletteTheme.surface,
         border: `1px solid ${template.paletteTheme.border}`,
@@ -25,19 +37,8 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
         display: 'flex',
         flexDirection: 'column',
         boxShadow: featured ? '0 16px 40px rgba(42, 21, 27, 0.08)' : '0 6px 24px rgba(42, 21, 27, 0.04)',
-        transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease',
       }}
       className="template-card"
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'translateY(-6px)';
-        e.currentTarget.style.boxShadow = '0 20px 48px rgba(42, 21, 27, 0.12)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'none';
-        e.currentTarget.style.boxShadow = featured
-          ? '0 16px 40px rgba(42, 21, 27, 0.08)'
-          : '0 6px 24px rgba(42, 21, 27, 0.04)';
-      }}
     >
       {/* Visual Header / Preview Cover */}
       <div style={{ position: 'relative', overflow: 'hidden' }}>
@@ -217,6 +218,6 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
           </div>
         );
       })()}
-    </div>
+    </motion.div>
   );
 };
