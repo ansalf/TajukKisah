@@ -1,0 +1,283 @@
+/* TajukKisah Luxury Wedding Invitation Design Tokens & Base Styles */
+
+:root {
+  /* Color Palette */
+  --color-ivory: #F6F0E6;
+  --color-ivory-light: #FAF6EE;
+  --color-burgundy: #651F32;
+  --color-burgundy-dark: #4A1423;
+  --color-burgundy-light: #7E283F;
+  --color-espresso: #2A151B;
+  --color-espresso-rich: #1E0E13;
+  --color-gold: #C7A66A;
+  --color-gold-light: #DFC48F;
+  --color-gold-dark: #856226; /* Enhanced for WCAG AA contrast (5.4:1 on white/ivory) */
+  --color-gold-text: #745620; /* 6.6:1 contrast ratio against ivory/warm-white backgrounds */
+  --color-warm-white: #FFFCF7;
+  --color-stone: #E6DFD5;
+  --color-charcoal-muted: #544146; /* Enhanced contrast: 8.9:1 on warm white, 8.0:1 on ivory */
+  --color-border-subtle: rgba(101, 31, 50, 0.14);
+  --color-border-gold: rgba(199, 166, 106, 0.35);
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Elevations & Shadows (Soft, editorial) */
+  --shadow-subtle: 0 4px 20px -2px rgba(42, 21, 27, 0.05);
+  --shadow-card: 0 12px 36px -4px rgba(42, 21, 27, 0.08);
+  --shadow-elevated: 0 20px 48px -6px rgba(42, 21, 27, 0.14);
+
+  /* Spacing */
+  --space-unit: 8px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
+  --space-5xl: 128px;
+
+  /* Transitions */
+  --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.2s ease-out;
+
+  /* Container bounds */
+  --container-max: 1240px;
+  --container-narrow: 840px;
+  --invitation-max: 480px;
+}
+
+/* Screen reader only utility class (WCAG accessible hiding) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Skip link for keyboard users */
+.skip-link {
+  position: absolute;
+  top: -60px;
+  left: 16px;
+  background-color: var(--color-burgundy);
+  color: #FFFFFF;
+  padding: 12px 20px;
+  z-index: 9999;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  transition: top 0.2s ease;
+  border-radius: 2px;
+  border: 1px solid var(--color-gold);
+}
+.skip-link:focus {
+  top: 16px;
+  outline: 3px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* Reset & Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sans);
+  background-color: var(--color-warm-white);
+  color: var(--color-espresso);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  line-height: 1.6;
+  background-color: var(--color-warm-white);
+  color: var(--color-espresso);
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Links & Buttons */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+/* Accessible focus indicators for keyboard navigation (WCAG 2.4.7 & 2.4.11) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2.5px solid var(--color-burgundy) !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 1px #FFFFFF, 0 0 0 4px rgba(101, 31, 50, 0.4) !important;
+}
+
+/* Dark theme focus indicators */
+.dark-theme-focus a:focus-visible,
+.dark-theme-focus button:focus-visible,
+.dark-theme-focus input:focus-visible,
+.dark-theme-focus select:focus-visible,
+.dark-theme-focus textarea:focus-visible {
+  outline: 2.5px solid #D4AF37 !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 1px #1E0E13, 0 0 0 4px rgba(212, 175, 55, 0.5) !important;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Luxury Editorial Headings */
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--color-espresso);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+p {
+  color: var(--color-charcoal-muted);
+  font-size: 1rem;
+  line-height: 1.7;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Layout Utilities */
+.container {
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(16px, 4vw, 24px);
+  padding-right: clamp(16px, 4vw, 24px);
+  width: 100%;
+}
+
+.container-narrow {
+  max-width: var(--container-narrow);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(16px, 4vw, 24px);
+  padding-right: clamp(16px, 4vw, 24px);
+  width: 100%;
+}
+
+/* Refined Subtle Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ivory);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-burgundy);
+}
+
+/* Invitation Animated Transitions */
+@keyframes envelopeUnfold {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  40% {
+    opacity: 0.95;
+    transform: scale(1.02) translateY(-10px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.96) translateY(-40px);
+    visibility: hidden;
+  }
+}
+
+@keyframes invitationReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 8px 24px rgba(42, 21, 27, 0.18);
+  }
+  50% {
+    box-shadow: 0 12px 32px rgba(101, 31, 50, 0.35);
+  }
+}
+
+.invitation-cover-exit {
+  animation: envelopeUnfold 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
+
+.invitation-content-enter {
+  animation: invitationReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+/* Touch targets and responsive safeguards */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Respect Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .invitation-cover-exit {
+    animation: none !important;
+    opacity: 0 !important;
+    display: none !important;
+  }
+  .invitation-content-enter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
